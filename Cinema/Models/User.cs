@@ -1,10 +1,11 @@
 ﻿using Cinema.EntityBases;
+using Microsoft.AspNetCore.Identity;
 
 namespace Cinema.Models
 {
-    public class Client : IUser,IEntityBases
+    public class User : IdentityUser,IUser
     {
-        public int Id { get; set ; }
+        
         public string Username { get; set; } = "";
         public string Password { get; set; } = "";
     }
