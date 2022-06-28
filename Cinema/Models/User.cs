@@ -3,10 +3,8 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Cinema.Models
 {
-    public class User : IdentityUser,IUser
+    public class User : IdentityUser
     {
-        
-        public string Username { get; set; } = "";
-        public string Password { get; set; } = "";
+        public string Name { get; set; }
     }
 }
