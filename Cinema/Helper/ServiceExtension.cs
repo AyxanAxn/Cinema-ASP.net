@@ -13,5 +13,9 @@ namespace Cinema
             builder.AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
         }
+
+
+
+
     }
 }

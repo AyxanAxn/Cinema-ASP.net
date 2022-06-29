@@ -11,22 +11,24 @@ namespace Cinema.Repositories
         public UnitOfWork(ApplicationDbContext db)
         {
             _db = db;
-            Movie = new MovieRepository(_db);
-            Chair = new ChairRepository(_db);
-            Room = new IRoomRepository(_db);
-            Movie = new MovieRepository(_db);
-            Movie = new MovieRepository(_db);
-            Movie = new MovieRepository(_db);
-            Movie = new MovieRepository(_db);
+            IMovie = new MovieRepository(_db);
+            IChair = new ChairRepository(_db);
+            IRoom = new  RoomRepository(_db);
+            IMovie = new MovieRepository(_db);
+            IMovie = new MovieRepository(_db);
+            IMovie = new MovieRepository(_db);
+            IMovie = new MovieRepository(_db);
         }
-        public IChairRepository Chair { get; set ; }
-        public IMovieRepository Movie { get; set; }
-        public IReservesRepository Room { get; set; }
-        public IUserRepository User { get; set; }
-        public ISeansRepository Seans { get; set;  }
-        public ISeansReservesRepository SeansReserves { get; set; }
-        public IReservesRepository Reserve { get ; set ; }
 
+
+        public IChairRepository IChair { get; set; }
+        public IMovieRepository IMovie { get; set; }
+        public IRoomRepository IRoom{ get; set; }
+        public IUserRepository IUser { get; set; }
+        public ISeansRepository ISeans { get; set; }
+        public ISeansReservesRepository ISeansReserves { get; set; }
+        public IReservesRepository IReserve { get; set; }
+       
         public void Save()
         {
            

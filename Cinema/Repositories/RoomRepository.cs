@@ -5,17 +5,18 @@ using System.Linq.Expressions;
 
 namespace Cinema.Repositories
 {
-    public class UserRepostory : Repository<User>, IUserRepository
+    public class RoomRepository : Repository<Room>, IRoomRepository
     {
 
         private ApplicationDbContext _db;
 
-        public UserRepostory(ApplicationDbContext db) : base(db)
+        public RoomRepository(ApplicationDbContext db) : base(db)
         {
-            _db = db;
+            _db=db;
         }
 
-        public void Update(User obj)
+        
+        public void Update(Room obj)
         {
             throw new NotImplementedException();
         }
