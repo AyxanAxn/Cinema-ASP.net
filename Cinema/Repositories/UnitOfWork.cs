@@ -18,6 +18,8 @@ namespace Cinema.Repositories
             SeansReserves = new SeansReservesRepository(_db);
             Reserve = new ReserveRepository(_db);
             User = new UserRepostory(_db);
+            Actor=new ActorRepository(_db);
+      
         }
 
 
@@ -28,7 +30,8 @@ namespace Cinema.Repositories
         public ISeansReservesRepository SeansReserves { get; set; }
         public IReservesRepository Reserve { get; set; }
         public IUserRepository User { get; set; }
-       
+        public IActorRepository Actor { get; set; }
+
         public void Save()
         {
            _db.SaveChanges();

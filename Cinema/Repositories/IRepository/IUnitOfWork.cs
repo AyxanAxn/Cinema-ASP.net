@@ -9,7 +9,8 @@
         ISeansRepository Seans { get; set; }
         ISeansReservesRepository SeansReserves { get; set; }
         IReservesRepository Reserve { get; set; }
-
+     
+        IActorRepository Actor { get; set; }
         void Save();
 
     }

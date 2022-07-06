@@ -14,6 +14,7 @@ namespace Cinema.Models
         public string Duration { get; set; }
         public string Director { get; set; }
         public string Description { get; set; }
-        public string[] Actors { get; set; }
+        public List<Actor> Actors { get; set; }
+        public int ActorId { get; set; }
     }
 }

@@ -1,3 +1,4 @@
+using AutoWrapper;
 using Cinema;
 using Cinema.Configurations;
 using Cinema.DB;
@@ -48,8 +49,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("CinemaDB"));
 });
-var app = builder.Build();
 
+var app = builder.Build();
+app.UseApiResponseAndExceptionWrapper();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

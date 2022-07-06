@@ -122,6 +122,7 @@ namespace Cinema.Controllers
             });
         }
 
+
         private string GenerateNewToken(IdentityUser user)
         {
             var jwtTokenHandler = new JwtSecurityTokenHandler();

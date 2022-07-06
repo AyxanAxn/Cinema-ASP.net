@@ -29,9 +29,15 @@ namespace Cinema.Controllers
         [Route("Add")]
         public IActionResult Add(Movie movie)
         {
-            _unitOfWork.Movie.Add(movie);
-            _unitOfWork.Save();
-            return Ok(movie);
+
+
+            if (ModelState.IsValid)
+            {
+                _unitOfWork.Movie.Add(movie);
+                _unitOfWork.Save();
+                return Ok(movie);
+            }
+            return BadRequest();
         }
 
         [HttpPut]
