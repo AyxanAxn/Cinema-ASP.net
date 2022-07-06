@@ -17,7 +17,7 @@ namespace Cinema.Repositories
 
         public void Update(Chair obj)
         {
-            throw new NotImplementedException();
+            _db.Chairs.Update(obj);
         }
     }
 }

@@ -67,7 +67,6 @@ namespace Cinema.Repositories
                 }
                 return query.FirstOrDefault();
             }
-
         }
 
         public void Remove(T entity)

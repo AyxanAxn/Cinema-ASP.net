@@ -1,7 +1,5 @@
-﻿using Cinema.Configurations;
-using Cinema.Models;
+﻿using Cinema.Models;
 using Cinema.Models.DTOs;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -9,18 +7,15 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Cinema.Controllers
+namespace Cinema.Controllers 
 {
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
     {
-
         private readonly UserManager<IdentityUser> _userManager;
         //private readonly JwtConfig _jwtConfig;
         private readonly IConfiguration _configuration;
-        
-
 
         public AuthController(
             UserManager<IdentityUser> userManager,
@@ -131,7 +126,6 @@ namespace Cinema.Controllers
         {
             var jwtTokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.UTF8.GetBytes(_configuration.GetSection("JwtConfig:Secret").Value);
-
             var tokenDescriptor = new SecurityTokenDescriptor()
             {
                 Subject = new ClaimsIdentity(new[]

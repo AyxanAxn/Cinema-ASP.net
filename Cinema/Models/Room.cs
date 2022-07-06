@@ -2,7 +2,7 @@
 
 namespace Cinema.Models
 {
-    public class Room : IEntityBases
+    public class Room
     {
         public int Id { get; set ; }
         public int RoomNumber { get; set; }

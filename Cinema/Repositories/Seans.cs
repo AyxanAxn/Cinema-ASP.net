@@ -17,7 +17,7 @@ namespace Cinema.Repositories
 
         public void Update(Seans obj)
         {
-            throw new NotImplementedException();
+            _db.Seans.Update(obj);
         }
     }
 }

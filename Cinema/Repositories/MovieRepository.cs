@@ -17,7 +17,7 @@ namespace Cinema.Repositories
 
         public void Update(Models.Movie obj)
         {
-            throw new NotImplementedException();
+            _db.Movies.Update(obj);
         }
     }
 }

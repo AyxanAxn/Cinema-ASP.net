@@ -12,13 +12,13 @@ namespace Cinema.DB
               : base(options)
         {
         }
-        DbSet<IdentityUser> Users { get; set; } 
-        DbSet<Room> Rooms { get; set; }
-        DbSet<Movie> Movies { get; set; }
-        DbSet<Seans> Seans { get; set; }
-        DbSet<Chair> Chairs { get; set; }
-        DbSet<Reserve> Reserves{ get; set; }
-        DbSet<SeansReserves> SeansReserves { get; set; }
+        public DbSet<IdentityUser> Users { get; set; } 
+        public DbSet<Room> Rooms { get; set; }
+        public DbSet<Movie> Movies { get; set; }
+        public DbSet<Seans> Seans { get; set; }
+        public DbSet<Chair> Chairs { get; set; }
+        public DbSet<Reserve> Reserves{ get; set; }
+        public DbSet<SeansReserves> SeansReserves { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

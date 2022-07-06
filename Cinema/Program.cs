@@ -2,6 +2,8 @@ using Cinema;
 using Cinema.Configurations;
 using Cinema.DB;
 using Cinema.EntityBases;
+using Cinema.Repositories;
+using Cinema.UnitOfWorks.IRepository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -41,6 +43,7 @@ builder.Services.AddAuthentication(options => {
 });
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("CinemaDB"));

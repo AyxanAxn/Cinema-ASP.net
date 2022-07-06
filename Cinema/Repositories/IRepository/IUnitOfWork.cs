@@ -2,13 +2,13 @@
 {
     public interface IUnitOfWork
     {
-        IChairRepository IChair { get; set; }
-        IMovieRepository IMovie { get; set; }
-        IRoomRepository IRoom { get; set; }
-        IUserRepository IUser { get; set; }
-        ISeansRepository ISeans { get; set; }
-        ISeansReservesRepository ISeansReserves { get; set; }
-        IReservesRepository IReserve { get; set; }
+        IChairRepository Chair { get; set; }
+        IMovieRepository Movie { get; set; }
+        IRoomRepository Room { get; set; }
+        IUserRepository User { get; set; }
+        ISeansRepository Seans { get; set; }
+        ISeansReservesRepository SeansReserves { get; set; }
+        IReservesRepository Reserve { get; set; }
 
         void Save();
 

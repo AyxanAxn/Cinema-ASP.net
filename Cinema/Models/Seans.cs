@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Cinema.Models
 {
-    public class Seans : IEntityBases
+    public class Seans
     {
         public int Id { get; set; }
 

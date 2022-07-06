@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Cinema.Models
 {
-    public class Movie : IEntityBases
+    public class Movie
     {
         [Key]
         public int Id { get; set; }
@@ -14,7 +14,6 @@ namespace Cinema.Models
         public string Duration { get; set; }
         public string Director { get; set; }
         public string Description { get; set; }
-        [NotMapped]
         public string[] Actors { get; set; }
     }
 }
