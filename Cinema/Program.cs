@@ -1,8 +1,12 @@
+using AutoMapper;
 using AutoWrapper;
 using Cinema;
 using Cinema.Configurations;
 using Cinema.DB;
 using Cinema.EntityBases;
+using Cinema.Map;
+using Cinema.Models;
+using Cinema.Models.DTOs;
 using Cinema.Repositories;
 using Cinema.UnitOfWorks.IRepository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -24,11 +28,13 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAuthentication();
 builder.Services.ConfigureIdentity();
 builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection("JwtConfig"));
-builder.Services.AddAuthentication(options => { 
+builder.Services.AddAuthentication(options =>
+{
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(jwt => {
+}).AddJwtBearer(jwt =>
+{
     var key = Encoding.ASCII.GetBytes(builder.Configuration.GetSection("JwtConfig:Secret").Value);
     jwt.SaveToken = true; // allow us to store jwt in header
     jwt.TokenValidationParameters = new TokenValidationParameters()// allows us to check that token was generated in our application, it is not any random token
@@ -42,6 +48,14 @@ builder.Services.AddAuthentication(options => {
 
     };
 });
+var config = new AutoMapper.MapperConfiguration(cfr =>
+{
+    cfr.AddProfile(new AutoMapperProfile());
+});
+var mapper = config.CreateMapper();
+builder.Services.AddSingleton(mapper);
+builder.Services.AddMvc();
+builder.Services.AddSignalR();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();

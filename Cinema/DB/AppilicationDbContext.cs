@@ -29,9 +29,7 @@ namespace Cinema.DB
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<Actor>()
-                   .HasMany<Movie>()
-                   ;
+       
             base.OnModelCreating(builder);
         }
     }

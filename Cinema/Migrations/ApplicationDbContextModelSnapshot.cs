@@ -113,8 +113,6 @@ namespace Cinema.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ActorId");
-
                     b.ToTable("Movies");
                 });
 
@@ -426,15 +424,6 @@ namespace Cinema.Migrations
                         .IsRequired();
 
                     b.Navigation("Room");
-                });
-
-            modelBuilder.Entity("Cinema.Models.Movie", b =>
-                {
-                    b.HasOne("Cinema.Models.Actor", null)
-                        .WithMany()
-                        .HasForeignKey("ActorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Cinema.Models.Room", b =>

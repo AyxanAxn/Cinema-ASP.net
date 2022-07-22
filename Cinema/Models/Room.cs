@@ -1,4 +1,5 @@
 ﻿using Cinema.EntityBases;
+using System.ComponentModel.DataAnnotations;
 
 namespace Cinema.Models
 {
