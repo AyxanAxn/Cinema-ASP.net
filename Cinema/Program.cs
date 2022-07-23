@@ -42,7 +42,7 @@ builder.Services.AddAuthentication(options =>
 
     };
 });
-var config = new AutoMapper.MapperConfiguration(cfr =>
+var config = new MapperConfiguration(cfr =>
 {
     cfr.AddProfile(new AutoMapperProfile());
 });

@@ -167,10 +167,15 @@ namespace Cinema.Migrations
                     b.Property<int>("MovieId")
                         .HasColumnType("int");
 
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MovieId");
 
                     b.ToTable("Seans");
                 });
@@ -431,6 +436,17 @@ namespace Cinema.Migrations
                     b.HasOne("Cinema.Models.Seans", null)
                         .WithMany("Rooms")
                         .HasForeignKey("SeansId");
+                });
+
+            modelBuilder.Entity("Cinema.Models.Seans", b =>
+                {
+                    b.HasOne("Cinema.Models.Movie", "Movie")
+                        .WithMany()
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Movie");
                 });
 
             modelBuilder.Entity("Cinema.Models.SeansReserves", b =>

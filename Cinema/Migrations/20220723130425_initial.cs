@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Cinema.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -77,21 +77,6 @@ namespace Cinema.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Reserves", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Seans",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    MovieId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Seans", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -216,6 +201,28 @@ namespace Cinema.Migrations
                     table.PrimaryKey("PK_Actors", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Actors_Movies_MovieId",
+                        column: x => x.MovieId,
+                        principalTable: "Movies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Seans",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MovieId = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<double>(type: "float", nullable: false),
+                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Seans", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Seans_Movies_MovieId",
                         column: x => x.MovieId,
                         principalTable: "Movies",
                         principalColumn: "Id",
@@ -354,6 +361,11 @@ namespace Cinema.Migrations
                 column: "SeansId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Seans_MovieId",
+                table: "Seans",
+                column: "MovieId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SeansReserves_ReserveId",
                 table: "SeansReserves",
                 column: "ReserveId");
@@ -391,9 +403,6 @@ namespace Cinema.Migrations
                 name: "SeansReserves");
 
             migrationBuilder.DropTable(
-                name: "Movies");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -407,6 +416,9 @@ namespace Cinema.Migrations
 
             migrationBuilder.DropTable(
                 name: "Seans");
+
+            migrationBuilder.DropTable(
+                name: "Movies");
         }
     }
 }
