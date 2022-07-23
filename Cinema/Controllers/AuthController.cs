@@ -14,13 +14,11 @@ namespace Cinema.Controllers
     public class AuthController : ControllerBase
     {
         private readonly UserManager<IdentityUser> _userManager;
-        //private readonly JwtConfig _jwtConfig;
         private readonly IConfiguration _configuration;
 
         public AuthController(
             UserManager<IdentityUser> userManager,
             IConfiguration configuration)
-            //JwtConfig jwtConfig)
         {
             _userManager = userManager;
             _configuration = configuration;
