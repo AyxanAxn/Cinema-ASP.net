@@ -17,15 +17,16 @@ namespace Cinema.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public ReserveController(IUnitOfWork unitOfWork, IMapper mapper)
+        public ReserveController(IUnitOfWork unitOfWork, IMapper mapper, UserManager<IdentityUser> userManager)
         {
-            this._unitOfWork = unitOfWork;
             this._mapper = mapper;
+            this._unitOfWork = unitOfWork;
+            this._userManager = userManager;
         }
 
         [HttpPost]
         [Route("AddReserve")]
-        public IActionResult AddReserve(ReserveDTO reserveDTO)
+        public async Task<IActionResult> AddReserve(ReserveDTO reserveDTO)
         {
             if (ModelState.IsValid)
             {
@@ -34,7 +35,7 @@ namespace Cinema.Controllers
                 List<int> nullChairs = new List<int>();
                 var currentRoom = _unitOfWork.Room.GetFirstOrDefault(r => r.Id == reserveDTO.RoomID);
                 var currentSeans = _unitOfWork.Seans.GetFirstOrDefault(s => s.Id == reserveDTO.SeansID);
-                var currentUser = _unitOfWork.User.GetFirstOrDefault(u => u.Id == reserveDTO.UserId);
+                var currentUser = await _userManager.FindByIdAsync(reserveDTO.UserId);
 
                 if (currentUser == null)
                     return NotFound("User not found");
@@ -53,7 +54,7 @@ namespace Cinema.Controllers
                         if (reserveChairs.IsEmpty) chairs.Add(reserveChairs);
                         else fullChairs.Add(reserveChairs.Id);
                     }
-                    else nullChairs.Add(reserveChairs.Id);
+                    else nullChairs.Add(chairId);
 
                 }
                 if (nullChairs.Count > 0)
@@ -80,7 +81,7 @@ namespace Cinema.Controllers
                 var mappedReserve = _mapper.Map<Reserve>(reserveDTO);
                 mappedReserve.Chairs = chairs;
                 mappedReserve.UserId = currentUser.Id;
-                mappedReserve.User = currentUser;
+                mappedReserve.User = (User)currentUser;
                 _unitOfWork.Reserve.Add(mappedReserve);
                 _unitOfWork.Save();
                 return Ok();
