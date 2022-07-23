@@ -9,6 +9,8 @@ namespace Cinema.Map
         {
             CreateMap<RoomDTO, Room>().ReverseMap();
             CreateMap<ChairDTO, Chair>().ReverseMap();
+            CreateMap<MovieDTO, Movie>().ReverseMap();
+            CreateMap<ActorDTO, Actor>().ReverseMap();
         }
     }
 }
