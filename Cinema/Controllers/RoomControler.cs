@@ -16,20 +16,25 @@ namespace Cinema.Controllers
             this._unitOfWork = unitOfWork;
             this._mapper = mapper;
         }
-
         [HttpPost]
         [Route("AddChair")]
-        public IActionResult AddChair(Chair chair)
+        public IActionResult AddChair(ChairDTO AddChair)
         {
-            if (chair != null)
+            if (AddChair != null)
             {
-                _unitOfWork.Chair.Add(chair);
-                _unitOfWork.Save();
-                return Ok();
+                var mappedChair = _mapper.Map<Chair>(AddChair);
+                var currentRoom = _unitOfWork.Room.GetFirstOrDefault(r => r.Id == AddChair.RoomId);
+                if (currentRoom != null)
+                {
+                    mappedChair.Room = currentRoom;
+                    _unitOfWork.Chair.Add(mappedChair);
+                    _unitOfWork.Save();
+                    return Ok();
+                }
+                return NotFound();
             }
             return BadRequest();
         }
-
         [HttpDelete]
         [Route("RemoveChair")]
         public IActionResult RemoveChair(List<int> ChairIds)
@@ -56,9 +61,9 @@ namespace Cinema.Controllers
         }
         [HttpPost]
         [Route("AddRoom")]
-        public IActionResult AddRoom(RoomViewModel AddRoom)
+        public IActionResult AddRoom(RoomDTO AddRoom)
         {
-            if (!_unitOfWork.Room.GetAll().Any(r => r.Id == AddRoom.Id))
+            if (!_unitOfWork.Room.GetAll().Any(r => r.RoomNumber == AddRoom.RoomNumber))
             {
                 var mappedRoom = _mapper.Map<Room>(AddRoom);
                 _unitOfWork.Room.Add(mappedRoom);

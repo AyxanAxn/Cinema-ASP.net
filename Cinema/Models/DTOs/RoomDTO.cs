@@ -1,8 +1,7 @@
 ﻿namespace Cinema.Models.DTOs
 {
-    public class RoomViewModel
+    public class RoomDTO
     {
-        public int Id { get; set; }
         public int RoomNumber { get; set; }
     }
 }
