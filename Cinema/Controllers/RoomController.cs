@@ -22,14 +22,21 @@ namespace Cinema.Controllers
         }
         [HttpPost]
         [Route("AddChair")]
-        public IActionResult AddChair(ChairDTO addChair)
+        public IActionResult AddChair(ChairDTO AddChair)
         {
-            if (ModelState.IsValid)
+            if (AddChair != null)
             {
-                var mappedChair = _mapper.Map<Chair>(addChair);
-                _unitOfWork.Chair.Add(mappedChair);
-                _unitOfWork.Save();
-                return Ok();
+                var mappedChair = _mapper.Map<Chair>(AddChair);
+                var currentRoom = _unitOfWork.Room.GetFirstOrDefault(r => r.Id == AddChair.RoomId);
+                if (currentRoom != null)
+                {
+                    mappedChair.Room = currentRoom;
+                    _unitOfWork.Chair.Add(mappedChair);
+                    _unitOfWork.Save();
+                    return Ok();
+                }
+                return NotFound();
+
             }
             return BadRequest();
         }

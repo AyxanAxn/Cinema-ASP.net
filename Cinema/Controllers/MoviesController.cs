@@ -1,4 +1,6 @@
-﻿using Cinema.Models;
+﻿using AutoMapper;
+using Cinema.Models;
+using Cinema.Models.DTOs;
 using Cinema.UnitOfWorks.IRepository;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,55 +13,45 @@ namespace Cinema.Controllers
     public class MoviesController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
-        public MoviesController(IUnitOfWork unitOfWork)
+        private readonly IMapper _mapper;
+        public MoviesController(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _unitOfWork = unitOfWork;
-        }
-
-        [HttpGet]
-        [Route("GetById")]
-        public IActionResult GetById(int Id)
-        {
-            var movie = _unitOfWork.Movie.GetFirstOrDefault(m => m.Id == Id);
-            if (movie == null) return NotFound();
-            return Ok(movie);
+            this._unitOfWork = unitOfWork;
+            this._mapper = mapper;
         }
 
         [HttpPost]
         [Route("Add")]
-        public IActionResult Add(Movie movie)
+        public IActionResult Add(MovieDTO addMovieDTO)
         {
             if (ModelState.IsValid)
             {
-                _unitOfWork.Movie.Add(movie);
+                List<Actor> actors = new List<Actor>();
+                foreach (var actor in addMovieDTO.ActorId)
+                {
+                    var actorsInMovie = _unitOfWork.Actor.GetFirstOrDefault(a => a.Id == actor);
+                    if (actorsInMovie == null)
+                        return NotFound();
+                    actors.Add(actorsInMovie);
+                }
+                var mappedMovie = _mapper.Map<Movie>(addMovieDTO);
+                mappedMovie.Actors = actors;
+                _unitOfWork.Movie.Add(mappedMovie);
                 _unitOfWork.Save();
-                return Ok(movie);
-            }
-            return BadRequest();
-        }
-
-        [HttpPut]
-        [Route("Update")]
-        public IActionResult Update(Movie movie)
-        {
-            if (ModelState.IsValid)
-            {
-                _unitOfWork.Movie.Update(movie);
-                _unitOfWork.Save();
-                return Ok(movie);
+                return Ok();
             }
             return BadRequest();
         }
 
         [HttpDelete]
         [Route("Delete")]
-        public IActionResult Delete(Movie movie)
+        public IActionResult Delete(int id)
         {
             if (ModelState.IsValid)
             {
-                var obj = _unitOfWork.Movie.GetFirstOrDefault(c => c.Id == movie.Id);
+                var obj = _unitOfWork.Movie.GetFirstOrDefault(c => c.Id == id);
                 if (obj == null) return NotFound();
-                _unitOfWork.Movie.Remove(movie);
+                _unitOfWork.Movie.Remove(obj);
                 _unitOfWork.Save();
                 return Ok();
             }

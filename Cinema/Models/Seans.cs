@@ -7,19 +7,13 @@ namespace Cinema.Models
 {
     public class Seans
     {
-        public int Id { get; set; }
-        [Required]
-        public List<Room> Rooms { get; set; }
-        [Required]
-        public DateTime StartTime { get; set; }
-        [Required]
-        public DateTime EndTime { get; set; }
-        [NotMapped]
-        [IgnoreDataMember]
-        public Movie Movie { get; set; }
-        [Required]
+        public int Id { get; set; } 
         public int MovieId { get; set; }
-        [IgnoreDataMember]
+        public double Price { get; set; }
+        public DateTime EndTime { get; set; }
+        public DateTime StartTime { get; set; }
+        public Movie Movie { get; set; }
+        public List<Room> Rooms { get; set; }
         public List<SeansReserves> SeansReserves { get; set; }
     }
 }

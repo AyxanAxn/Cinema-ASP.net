@@ -17,9 +17,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-
 builder.Services.AddControllers();
 builder.Services.AddCors(cors => { cors.AddPolicy("AllowOrign", options => options.AllowAnyOrigin()); });
 builder.Services.AddEndpointsApiExplorer();
@@ -47,11 +44,9 @@ builder.Services.AddAuthentication(options =>
 
     };
 });
-
-var config = new AutoMapper.MapperConfiguration(cfr =>
+var config = new MapperConfiguration(cfr =>
 {
     cfr.AddProfile(new AutoMapperProfile());
-    //cfr.AddProfiles(new List<AutoMapperProfile>());
 });
 var mapper = config.CreateMapper();
 builder.Services.AddSingleton(mapper);
@@ -65,9 +60,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("CinemaDB"));
 });
 
+
 var app = builder.Build();
 app.UseApiResponseAndExceptionWrapper();
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -77,7 +72,6 @@ app.UseCors(cors => cors
 .AllowAnyOrigin()
 .AllowAnyHeader()
 .AllowAnyMethod());
-
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
