@@ -4,8 +4,6 @@ using Cinema.Models.DTOs;
 using Cinema.UnitOfWorks.IRepository;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace Cinema.Controllers
 {
     [Route("api/[controller]")]
