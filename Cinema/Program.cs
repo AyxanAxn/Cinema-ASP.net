@@ -12,6 +12,7 @@ using Cinema.UnitOfWorks.IRepository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -20,11 +21,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddCors(cors => { cors.AddPolicy("AllowOrign", options => options.AllowAnyOrigin()); });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-
 builder.Services.AddAuthentication();
 builder.Services.ConfigureIdentity();
 builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection("JwtConfig"));
@@ -48,9 +47,11 @@ builder.Services.AddAuthentication(options =>
 
     };
 });
+
 var config = new AutoMapper.MapperConfiguration(cfr =>
 {
     cfr.AddProfile(new AutoMapperProfile());
+    //cfr.AddProfiles(new List<AutoMapperProfile>());
 });
 var mapper = config.CreateMapper();
 builder.Services.AddSingleton(mapper);
@@ -72,6 +73,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseCors(cors => cors
+.AllowAnyOrigin()
+.AllowAnyHeader()
+.AllowAnyMethod());
 
 app.UseAuthentication();
 app.UseAuthorization();

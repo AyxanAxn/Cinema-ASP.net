@@ -8,7 +8,9 @@ namespace Cinema.Map
     {
         public AutoMapperProfile()
         {
-            CreateMap<RoomViewModel, Room>().ReverseMap();
+            CreateMap<ChairDTO, Chair>().ReverseMap();  
+            CreateMap<RoomDTO, Room>().ReverseMap();
+            
         }
     }
 }

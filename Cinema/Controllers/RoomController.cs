@@ -4,32 +4,35 @@ using Cinema.Models;
 using Cinema.Models.DTOs;
 using Cinema.UnitOfWorks.IRepository;
 using Microsoft.AspNetCore.Mvc;
+using System.Web.Http.Cors;
 
 namespace Cinema.Controllers
 {
-    public class RoomControler : Controller
+    [EnableCors("*","*","*")]
+    [Route("api/[controller]")]
+    [ApiController]
+    public class RoomController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public RoomControler(IUnitOfWork unitOfWork, IMapper mapper)
+        public RoomController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             this._unitOfWork = unitOfWork;
             this._mapper = mapper;
         }
-
         [HttpPost]
         [Route("AddChair")]
-        public IActionResult AddChair(Chair chair)
+        public IActionResult AddChair(ChairDTO addChair)
         {
-            if (chair != null)
+            if (ModelState.IsValid)
             {
-                _unitOfWork.Chair.Add(chair);
+                var mappedChair = _mapper.Map<Chair>(addChair);
+                _unitOfWork.Chair.Add(mappedChair);
                 _unitOfWork.Save();
                 return Ok();
             }
             return BadRequest();
         }
-
         [HttpDelete]
         [Route("RemoveChair")]
         public IActionResult RemoveChair(List<int> ChairIds)
@@ -56,9 +59,9 @@ namespace Cinema.Controllers
         }
         [HttpPost]
         [Route("AddRoom")]
-        public IActionResult AddRoom(RoomViewModel AddRoom)
+        public IActionResult AddRoom(RoomDTO AddRoom)
         {
-            if (!_unitOfWork.Room.GetAll().Any(r => r.Id == AddRoom.Id))
+            if (!_unitOfWork.Room.GetAll().Any(r => r.RoomNumber == AddRoom.RoomNumber))
             {
                 var mappedRoom = _mapper.Map<Room>(AddRoom);
                 _unitOfWork.Room.Add(mappedRoom);
@@ -67,6 +70,7 @@ namespace Cinema.Controllers
             }
             return BadRequest();
         }
+
         [HttpDelete]
         [Route("RemoveRoom")]
         public IActionResult RemoveRoom(int id)
@@ -84,9 +88,16 @@ namespace Cinema.Controllers
             }
             return BadRequest();
         }
-        public IActionResult Index()
-        {
-            return View();
+        [HttpGet]
+        [Route("GetRooms")]
+        public IActionResult GetRooms() {
+            var roomDatas = _unitOfWork.Room.GetAll();
+            if (roomDatas.ToList().Count > 0)
+            {
+                return Ok(roomDatas);
+            }
+            return BadRequest(); 
+        
         }
     }
 }
